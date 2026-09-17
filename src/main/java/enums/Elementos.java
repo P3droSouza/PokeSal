@@ -1,0 +1,10 @@
+package enums;
+
+public enum Elementos {
+        FOGO,
+        AGUA,
+        PLANTA
+    }
+
+
+
