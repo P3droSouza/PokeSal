@@ -4,7 +4,7 @@ import enums.StatusDoEfeito;
 import exception.AtaqueBloqueadoException;
 
 public class Pokesal {
-    public static final int VElOCIDADADEMINIMA = 1;
+    public static final int VElOCIDADADE_MINIMA = 1;
 
     private final String nome;
     public final int defesa;
@@ -58,7 +58,7 @@ public class Pokesal {
             this.numeroDeAtaques++;
         }
     public void reduzirSpd(int quantidade) {
-        this.velocidade = Math.max(VElOCIDADADEMINIMA, this.velocidade - quantidade);
+        this.velocidade = Math.max(VElOCIDADADE_MINIMA, this.velocidade - quantidade);
     }
 
     public String getNome() {
