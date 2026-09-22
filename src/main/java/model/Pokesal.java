@@ -50,7 +50,7 @@ public class Pokesal {
     /**
         @throws AtaqueBloqueadoException
     */
-    public void lancarAtauque(Ataque ataque){
+    public void lancarAtaque(Ataque ataque){
         if(!AtaqueDisponivel(ataque)){
             throw new AtaqueBloqueadoException("O ataque" + ataque.getNome() + "não pode ser usado nesse turno");
             }
