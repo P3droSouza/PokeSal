@@ -1,7 +1,6 @@
 package model;
 import enums.Elementos;
 import enums.StatusDoEfeito;
-import exception.AtaqueBloqueadoException;
 
 public class Pokesal {
     public static final int VELOCIDADADE_MINIMA = 1;
@@ -47,16 +46,10 @@ public class Pokesal {
     public boolean AtaqueDisponivel(Ataque ataque) {
         return ultimoAtaqueUsado == null || !ultimoAtaqueUsado.equals(ataque);
     }
-    /**
-        @throws AtaqueBloqueadoException
-    */
     public void lancarAtaque(Ataque ataque){
-        if(!AtaqueDisponivel(ataque)){
-            throw new AtaqueBloqueadoException("O ataque" + ataque.getNome() + "não pode ser usado nesse turno");
-            }
-            this.ultimoAtaqueUsado = ataque;
-            this.numeroDeAtaques++;
-        }
+        this.ultimoAtaqueUsado = ataque;
+        this.numeroDeAtaques++;
+    }
     public void reduzirSpd(int quantidade) {
         this.velocidade = Math.max(VELOCIDADADE_MINIMA, this.velocidade - quantidade);
     }
@@ -113,6 +106,3 @@ public class Pokesal {
         return numeroDeAtaques;
     }
 }
-
-
-
