@@ -31,11 +31,6 @@ public class GerencidorDaBatalha {
         return treinador == treinador1 ? treinador2 : treinador1;
     }
 
-    //se o ataque repetir o último usado
-    /**
-        @throws exception.AtaqueBloqueadoException
-     */
-
     public void executarAtaque(Treinador atacante, Ataque ataque, boolean defensorUsaProtecao) {
         Treinador defensor = getOponente(atacante);
         Pokesal pokesalAtacante = atacante.getPokesal();
