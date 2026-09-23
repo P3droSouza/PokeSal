@@ -1,11 +1,17 @@
 import batalha.GerencidorDaBatalha;
-import java.util.Scanner;
+import items.Antidote;
+import items.Item;
+import items.Potion;
+import items.SuperPotion;
 import model.Ataque;
 import model.Pokesais;
 import model.Pokesal;
 import model.Treinador;
 import terreno.CanteiroCentral;
 import terreno.EfeitoDoTerreno;
+
+import java.util.Scanner;
+
 
 /**
  * Classe principal responsável por executar a simulação de batalha do PokeSal via console.
@@ -14,9 +20,8 @@ public class Main {
 
     /**
      * Ponto de inicio: executa a batalha entre dois treinadores
-     *  até ter um vencedor.
+     * até ter um vencedor.
      */
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -37,12 +42,10 @@ public class Main {
             Treinador atacante = gerencidorDaBatalha.recalculaAtacantePrioritario();
             Treinador defensor = gerencidorDaBatalha.getOponente(atacante);
 
-            Ataque ataqueAtacante = escolherAtaque(scanner, atacante);
-            gerencidorDaBatalha.executarAtaque(atacante, ataqueAtacante, false);
+            executarTurnoDoTreinador(scanner, gerencidorDaBatalha, atacante, defensor);
 
             if (defensor.getPokesal().PokesalestaVivo()) {
-                Ataque ataqueDefensor = escolherAtaque(scanner, defensor);
-                gerencidorDaBatalha.executarAtaque(defensor, ataqueDefensor, false);
+                executarTurnoDoTreinador(scanner, gerencidorDaBatalha, defensor, atacante);
             }
 
             gerencidorDaBatalha.finalizarTurno();
@@ -61,6 +64,40 @@ public class Main {
         scanner.close();
     }
 
+    private static void executarTurnoDoTreinador(Scanner scanner,
+                                                 GerencidorDaBatalha gerencidorDaBatalha, Treinador quemAge, Treinador oponente) {
+        if (quemAge.podeUsarItem() && perguntarSimNao(scanner,
+                quemAge.getNome() + ", usar um item em vez de atacar? (s/n): ")) {
+            usarItem(scanner, quemAge);
+            return;
+        }
+
+        Ataque ataqueEscolhido = escolherAtaque(scanner, quemAge);
+
+        boolean oponenteUsaProtecao = oponente.EstaProtecaoDisponivel()
+                && perguntarSimNao(scanner, oponente.getNome() + ", usar proteção para anular esse ataque? (s/n): ");
+
+        gerencidorDaBatalha.executarAtaque(quemAge, ataqueEscolhido, oponenteUsaProtecao);
+    }
+
+    private static boolean perguntarSimNao(Scanner scanner, String pergunta) {
+        System.out.print(pergunta);
+        return scanner.next().equalsIgnoreCase("s");
+    }
+
+    private static void usarItem(Scanner scanner, Treinador treinador) {
+        System.out.println("1 - Potion (cura 40)");
+        System.out.println("2 - Super Potion (cura 80)");
+        System.out.println("3 - Antidote (remove status)");
+        System.out.print("Escolha o item: ");
+
+        Item item = switch (scanner.nextInt()) {
+            case 2 -> new SuperPotion();
+            case 3 -> new Antidote();
+            default -> new Potion();
+        };
+        treinador.usarItem(item);
+    }
 
     private static Ataque escolherAtaque(Scanner scanner, Treinador treinador) {
         Pokesal pokesal = treinador.getPokesal();
