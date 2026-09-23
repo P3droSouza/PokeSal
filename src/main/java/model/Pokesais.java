@@ -28,18 +28,18 @@ public class Pokesais {
     public static Pokesal Bubasal(){
         Ataque fraco = new Ataque("Chicote de Cipó", Elementos.PLANTA, BULBASAL_ATAQUE_FRACO);
         Ataque forte = new Ataque("Folha Navalha", Elementos.PLANTA, BULBASAL_ATAQUE_FORTE);
-        return new Pokesal("Bubasal", BULBASAL_VIDA, BULBASAL_ATAQUE, BULBASAL_DEFEFSA, BULBASAL_VELOCIDADE,Elementos.PLANTA, fraco, forte);
+        return new Pokesal("Bubasal", BULBASAL_DEFEFSA, BULBASAL_ATAQUE, BULBASAL_VIDA, BULBASAL_VELOCIDADE, Elementos.PLANTA, fraco, forte);
     }
 
     public static Pokesal Charsal(){
         Ataque fraco = new Ataque("Brasa", Elementos.FOGO, CHARSAL_ATAQUE_FRACO);
         Ataque forte = new Ataque("Lança Chamas", Elementos.FOGO, CHARSAL_ATAQUE_FORTE);
-        return new Pokesal("Charsal", CHARSAL_VIDA, CHARSAL_ATAQUE,CHARSAL_DEFESA, CHARSAL_VELOCIDADE, Elementos.FOGO, fraco, forte);
+        return new Pokesal("Charsal", CHARSAL_DEFESA, CHARSAL_ATAQUE, CHARSAL_VIDA, CHARSAL_VELOCIDADE, Elementos.FOGO, fraco, forte);
     }
 
     public static Pokesal SquirtSal() {
         Ataque fraco = new Ataque("Jato d'Água", Elementos.AGUA, SQUIRTSAL_ATAQUE_FRACO);
         Ataque forte = new Ataque("Hidrobomba", Elementos.AGUA, SQUIRTSAL_ATAQUE_FORTE);
-        return new Pokesal("SquirtSal", SQUIRTSAL_VIDA, SQUIRTSAL_ATAQUE, SQUIRTSAL_DEFESA, SQUIRTSAL_VELOCIDADE, Elementos.AGUA, fraco, forte);
+        return new Pokesal("SquirtSal", SQUIRTSAL_DEFESA, SQUIRTSAL_ATAQUE, SQUIRTSAL_VIDA, SQUIRTSAL_VELOCIDADE, Elementos.AGUA, fraco, forte);
     }
 }
