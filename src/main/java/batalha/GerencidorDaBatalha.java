@@ -41,7 +41,7 @@ public class GerencidorDaBatalha {
         Pokesal pokesalAtacante = atacante.getPokesal();
         Pokesal pokesalDefensor = defensor.getPokesal();
 
-        pokesalAtacante.AtaqueDisponivel(ataque);
+        pokesalAtacante.lancarAtaque(ataque);
 
         if (defensorUsaProtecao) {
             defensor.ativarProtecao();
