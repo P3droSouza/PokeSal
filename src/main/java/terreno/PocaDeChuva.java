@@ -8,7 +8,8 @@ import model.Pokesal;
  * Classe responsável por criar o terreno qu efavorece o elmento do tipo agua.
  */
 public class PocaDeChuva implements EfeitoDoTerreno {
-  private static final double BONUS_AGUA = 1.10;
+  private static final double BONUS_AGUA = 0.10;
+  private static final double MODIFICADOR_NEUTRO = 1.0;
 
   @Override
   public Elementos getElementoTerreno() {
@@ -20,7 +21,7 @@ public class PocaDeChuva implements EfeitoDoTerreno {
     if (ataque.getElementos() == Elementos.AGUA) {
       return 1 + BONUS_AGUA;
     }
-    return 0;
+    return MODIFICADOR_NEUTRO;
   }
 
   @Override
