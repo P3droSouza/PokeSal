@@ -24,10 +24,10 @@ public class Main {
     Scanner scanner = new Scanner(System.in);
 
     Pokesal charSal = Pokesais.charsal();
-    Pokesal squirtSal = Pokesais.squirtSal();
+    Pokesal bubasal = Pokesais.bubasal();
 
     Treinador treinador1 = new Treinador("Ash", charSal);
-    Treinador treinador2 = new Treinador("Brook", squirtSal);
+    Treinador treinador2 = new Treinador("Brook", bubasal);
 
     EfeitoDoTerreno terreno = new AsfaltoQuente();
     GerencidorDaBatalha gerencidorDaBatalha =
@@ -48,15 +48,10 @@ public class Main {
         executarTurnoDoTreinador(scanner, gerencidorDaBatalha, defensor, atacante);
       }
       gerencidorDaBatalha.finalizarTurno();
-
-      System.out.println(treinador1.getNome() + " (" + charSal.getNome() + "): "
-          + charSal.getVidaAtual() + " Vida");
-      System.out.println(treinador2.getNome() + " (" + squirtSal.getNome() + "): "
-          + squirtSal.getVidaAtual() + " Vida");
       System.out.println(treinador1.getNome() + " (" + charSal.getNome() + "): "
           + charSal.getVidaAtual() + " Vida | Status: " + charSal.getStatusDoEfeito());
-      System.out.println(treinador2.getNome() + " (" + squirtSal.getNome() + "): "
-          + squirtSal.getVidaAtual() + " Vida | Status: " + squirtSal.getStatusDoEfeito());
+      System.out.println(treinador2.getNome() + " (" + bubasal.getNome() + "): "
+          + bubasal.getVidaAtual() + " Vida | Status: " + bubasal.getStatusDoEfeito());
       turno++;
     }
 
