@@ -9,7 +9,7 @@ import model.Pokesal;
  */
 public class CanteiroCentral implements EfeitoDoTerreno {
 
-  private static final double REGEN_PLANTA = 1.50;
+  private static final double REGEN_PLANTA = 0.05;
 
   @Override
   public Elementos getElementoTerreno() {
