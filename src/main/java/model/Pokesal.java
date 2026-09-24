@@ -43,8 +43,6 @@ public class Pokesal {
 
   /**
    * Reduz a vida atual do Pokésal, sem deixá-la ficar negativa.
-   *
-   * @param dano quantidade de dano recebido.
    */
   public void danoRecebido(int dano) {
     this.vidaAtual = Math.max(0, this.vidaAtual - dano);
