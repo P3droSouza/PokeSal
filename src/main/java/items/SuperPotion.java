@@ -1,9 +1,15 @@
 package items;
+
 import model.Pokesal;
+
+/**
+ * Item que restaura uma quantidade maior de vida do Pokésal.
+ */
 public class SuperPotion implements Item {
-    private static final int CURA_SUPER_POTION = 80;
-    @Override
-    public void aplicarEfeito(Pokesal pokesal){
-        pokesal.curaPokemon(CURA_SUPER_POTION);
-    }
+  private static final int CURA_SUPER_POTION = 80;
+
+  @Override
+  public void aplicarEfeito(Pokesal pokesal) {
+    pokesal.curaPokemon(CURA_SUPER_POTION);
+  }
 }

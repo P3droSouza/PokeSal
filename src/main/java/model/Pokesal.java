@@ -1,108 +1,142 @@
 package model;
+
 import enums.Elementos;
 import enums.StatusDoEfeito;
 
+/**
+ * Representa um Pokésal em batalha: seus atributos, ataques disponíveis e estado atual
+ * (vida, velocidade, status e histórico de ataques usados).
+ */
 public class Pokesal {
-    public static final int VELOCIDADADE_MINIMA = 1;
+  public static final int VELOCIDADADE_MINIMA = 1;
+  public final int defesa;
+  public final int ataque;
+  public final int vidaMaxima;
+  public final Elementos elementos;
+  public final Ataque atk1;
+  public final Ataque atk2;
+  private final String nome;
+  private int vidaAtual;
+  private int velocidade;
+  private StatusDoEfeito statusDoEfeito;
+  private Ataque ultimoAtaqueUsado;
+  private int numeroDeAtaques;
 
-    private final String nome;
-    public final int defesa;
-    public final int ataque;
-    public final int vidaMaxima;
-    public final Elementos elementos;
-    public final Ataque ataque_1;
-    public final Ataque ataque_2;
-    private int vidaAtual;
-    private int velocidade;
-    private StatusDoEfeito statusDoEfeito;
-    private Ataque ultimoAtaqueUsado;
-    private int numeroDeAtaques;
+  /**
+   * Cria um Pokésal com seus atributos base e os dois ataques disponíveis.
+   */
+  public Pokesal(String nome, int defesa, int ataque, int vidaMaxima, int velocidade,
+                 Elementos elementos, Ataque ataque1, Ataque ataque2) {
+    this.nome = nome;
+    this.defesa = defesa;
+    this.ataque = ataque;
+    this.vidaMaxima = vidaMaxima;
+    this.elementos = elementos;
+    this.atk1 = ataque1;
+    this.atk2 = ataque2;
+    this.vidaAtual = vidaMaxima;
+    this.numeroDeAtaques = 0;
+    this.ultimoAtaqueUsado = null;
+    this.statusDoEfeito = StatusDoEfeito.SEM_EFEITO;
+    this.velocidade = velocidade;
+  }
 
-    public Pokesal(String nome, int defesa, int ataque, int vidaMaxima, int velocidade, Elementos elementos, Ataque ataque1, Ataque ataque2) {
-        this.nome = nome;
-        this.defesa = defesa;
-        this.ataque = ataque;
-        this.vidaMaxima = vidaMaxima;
-        this.elementos = elementos;
-        this.ataque_1 = ataque1;
-        this.ataque_2 = ataque2;
-        this.vidaAtual = vidaMaxima;
-        this.numeroDeAtaques = 0;
-        this.ultimoAtaqueUsado = null;
-        this.statusDoEfeito = StatusDoEfeito.SEM_EFEITO;
-        this.velocidade = velocidade;
-    }
+  /**
+   * Reduz a vida atual do Pokésal, sem deixá-la ficar negativa.
+   *
+   * @param dano quantidade de dano recebido.
+   */
+  public void danoRecebido(int dano) {
+    this.vidaAtual = Math.max(0, this.vidaAtual - dano);
+  }
 
-    public void danoRecebido(int dano){
-        this.vidaAtual = Math.max(0,this.vidaAtual - dano);
-    }
-    public void curaPokemon(int cura){
-        this.vidaAtual = Math.min(vidaMaxima, this.vidaAtual + cura );
-    }
-    public boolean PokesalestaVivo(){
-        return vidaAtual > 0;
-    }
-    //Verifica se o ataque informado está disponivel seguindo a regra de um dos requisitos autorais de não poder usar 2 vezes o mesmo ataque em seguida
-    public boolean AtaqueDisponivel(Ataque ataque) {
-        return ultimoAtaqueUsado == null || !ultimoAtaqueUsado.equals(ataque);
-    }
-    public void lancarAtaque(Ataque ataque){
-        this.ultimoAtaqueUsado = ataque;
-        this.numeroDeAtaques++;
-    }
-    public void reduzirSpd(int quantidade) {
-        this.velocidade = Math.max(VELOCIDADADE_MINIMA, this.velocidade - quantidade);
-    }
+  /**
+   * Restaura vida do Pokésal, sem ultrapassar a vida máxima.
+   */
+  public void curaPokemon(int cura) {
+    this.vidaAtual = Math.min(vidaMaxima, this.vidaAtual + cura);
+  }
 
-    public String getNome() {
-        return nome;
-    }
+  /**
+   * Indica se o Pokésal ainda está vivo.
+   */
+  public boolean pokesalestaVivo() {
+    return vidaAtual > 0;
+  }
 
-    public int getVidaAtual() {
-        return vidaAtual;
-    }
+  /**
+   * Verifica se o ataque informado está disponivel seguindo a regra de um dos requisitos autorais.
+   * de não poder usar 2 vezes o mesmo ataque em seguida
+   */
+  public boolean ataqueDisponivel(Ataque ataque) {
+    return ultimoAtaqueUsado == null || !ultimoAtaqueUsado.equals(ataque);
+  }
 
-    public int getVidaMaxima() {
-        return vidaMaxima;
-    }
+  /**
+   * Registra o ataque como o último usado e incrementa o contador de ataques do Pokésal.
+   */
+  public void lancarAtaque(Ataque ataque) {
+    this.ultimoAtaqueUsado = ataque;
+    this.numeroDeAtaques++;
+  }
 
-    public int getAtaque() {
-        return ataque;
-    }
+  /**
+   * Reduz a velocidade do Pokésal.
+   * sem deixar a velocidade abaixo do minimoque é 1
+   */
+  public void reduzirSpd(int quantidade) {
+    this.velocidade = Math.max(VELOCIDADADE_MINIMA, this.velocidade - quantidade);
+  }
 
-    public int getDefesa() {
-        return defesa;
-    }
+  public String getNome() {
+    return nome;
+  }
 
-    public int getVelocidade() {
-        return velocidade;
-    }
+  public int getVidaAtual() {
+    return vidaAtual;
+  }
 
-    public Elementos getElementos() {
-        return elementos;
-    }
+  public int getVidaMaxima() {
+    return vidaMaxima;
+  }
 
-    public StatusDoEfeito getStatusDoEfeito() {
-        return statusDoEfeito;
-    }
+  public int getAtaque() {
+    return ataque;
+  }
 
-    public void setStatusEfeito(StatusDoEfeito statusDoEfeito) {
-        this.statusDoEfeito = statusDoEfeito;
-    }
+  public int getDefesa() {
+    return defesa;
+  }
 
-    public Ataque getAtaque_1() {
-        return ataque_1;
-    }
+  public int getVelocidade() {
+    return velocidade;
+  }
 
-    public Ataque getAtaque_2() {
-        return ataque_2;
-    }
+  public Elementos getElementos() {
+    return elementos;
+  }
 
-    public Ataque getUltimoAtaqueUsado() {
-        return ultimoAtaqueUsado;
-    }
+  public StatusDoEfeito getStatusDoEfeito() {
+    return statusDoEfeito;
+  }
 
-    public int getNumeroDeAtaques() {
-        return numeroDeAtaques;
-    }
+  public void setStatusEfeito(StatusDoEfeito statusDoEfeito) {
+    this.statusDoEfeito = statusDoEfeito;
+  }
+
+  public Ataque getAtk1() {
+    return atk1;
+  }
+
+  public Ataque getAtk2() {
+    return atk2;
+  }
+
+  public Ataque getUltimoAtaqueUsado() {
+    return ultimoAtaqueUsado;
+  }
+
+  public int getNumeroDeAtaques() {
+    return numeroDeAtaques;
+  }
 }
