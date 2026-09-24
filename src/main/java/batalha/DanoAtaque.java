@@ -15,8 +15,8 @@ public class DanoAtaque {
   private static final double MULTIPLICADOR_NEUTRO = 1.0;
 
   /**
-   * Calcula o multiplicador de dano decorrente da vantagem de tipo entre atacante e defensor
-   * (Fogo > Planta > Água > Fogo).
+   * Calcula o multiplicador do dano com base na vantagem de tipo entre o atacante e o defensor,
+   * seguindo a relação: Fogo > Planta > Água > Fogo.
    */
   public double calcularMultiplicadorTipo(Elementos atacante, Elementos defensor) {
     if (atacante == Elementos.FOGO && defensor == Elementos.PLANTA) {
