@@ -8,6 +8,3 @@
 
 ### Como posso aplicar o chekStyle no intelij
 
-Sem repetir ataque seguido
-Desfavorecimento na velocidade por terreno favorável
-Proteção do treinador
