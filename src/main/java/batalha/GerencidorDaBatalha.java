@@ -1,5 +1,8 @@
 package batalha;
 
+import enums.Elementos;
+import enums.StatusDoEfeito;
+import java.util.Random;
 import model.Ataque;
 import model.Pokesal;
 import model.Treinador;
@@ -11,6 +14,8 @@ import terreno.EfeitoDoTerreno;
  */
 public class GerencidorDaBatalha {
 
+  private static final double CHANCE_APLICAR_STATUS = 0.50;
+
   private final Treinador treinador1;
   private final Treinador treinador2;
   private final EfeitoDoTerreno terreno;
@@ -18,6 +23,7 @@ public class GerencidorDaBatalha {
   private final DanoAtaque calculadoraDano;
   private final StatusPokesal gerenciadorStatus;
   private final RegraVelocidadeTerreno regraVelocidadeTerreno;
+  private final Random random;
 
   /**
    * Cria o gerenciador de uma batalha entre dois treinadores em um terreno específico.
@@ -29,6 +35,7 @@ public class GerencidorDaBatalha {
     this.calculadoraDano = new DanoAtaque();
     this.gerenciadorStatus = new StatusPokesal();
     this.regraVelocidadeTerreno = new RegraVelocidadeTerreno();
+    this.random = new Random();
   }
 
   /**
@@ -36,18 +43,26 @@ public class GerencidorDaBatalha {
    * de seus Pokésais.
    */
   public Treinador recalculaAtacantePrioritario() {
-    return treinador1
+    int velocidade1 = treinador1
         .getPokesal()
-        .getVelocidade() >= treinador2
+        .getVelocidade();
+    int velocidade2 = treinador2
         .getPokesal()
-        .getVelocidade() ? treinador1 : treinador2;
+        .getVelocidade();
+    if (velocidade1 >= velocidade2) {
+      return treinador1;
+    }
+    return treinador2;
   }
 
   /**
    * Retorna o treinador oponente de um dado treinador nesta batalha.
    */
   public Treinador getOponente(Treinador treinador) {
-    return treinador == treinador1 ? treinador2 : treinador1;
+    if (treinador == treinador1) {
+      return treinador2;
+    }
+    return treinador1;
   }
 
   /**
@@ -68,19 +83,42 @@ public class GerencidorDaBatalha {
 
     int dano = calculadoraDano.calcularDano(ataque, pokesalAtacante, pokesalDefensor, terreno);
     pokesalDefensor.danoRecebido(dano);
+
+    if (random.nextDouble() < CHANCE_APLICAR_STATUS) {
+      pokesalDefensor.setStatusEfeito(statusPorElemento(pokesalAtacante.getElementos()));
+    }
   }
 
   /**
-   * Aplica, para os dois treinadores, os efeitos de fim de turno: status do Pokésal,
-   * efeito de fim de rodada do terreno e a penalidade de velocidade do terreno.
+   * Mapeia o elemento de um Pokésal atacante para o status que ele pode causar:
+   * Fogo queima, Água paralisa, Planta envenena.
+   */
+  private StatusDoEfeito statusPorElemento(Elementos elemento) {
+    if (elemento == Elementos.FOGO) {
+      return StatusDoEfeito.QUEIMADO;
+    } else if (elemento == Elementos.AGUA) {
+      return StatusDoEfeito.PARALIZADO;
+    } else {
+      return StatusDoEfeito.ENVENENADO;
+    }
+  }
+
+  /**
+   * Aplica ao Pokésal os efeitos de fim de turno: status, efeito de fim de rodada
+   * do terreno e a penalidade de velocidade do terreno.
+   */
+  private void aplicarEfeitosDeFimDeTurno(Pokesal pokesal) {
+    gerenciadorStatus.aplicarEfeitoNoFimDaRodada(pokesal);
+    terreno.aplicarEfeitoNoFimDaRodada(pokesal);
+    regraVelocidadeTerreno.aplicarPenalidade(pokesal, terreno);
+  }
+
+  /**
+   * Aplica, para os dois treinadores, os efeitos de fim de turno em seus Pokésais.
    */
   public void finalizarTurno() {
-    for (Treinador treinador : new Treinador[] {treinador1, treinador2}) {
-      Pokesal pokesal = treinador.getPokesal();
-      gerenciadorStatus.aplicarEfeitoNoFimDaRodada(pokesal);
-      terreno.aplicarEfeitoNoFimDaRodada(pokesal);
-      regraVelocidadeTerreno.aplicarPenalidade(pokesal, terreno);
-    }
+    aplicarEfeitosDeFimDeTurno(treinador1.getPokesal());
+    aplicarEfeitosDeFimDeTurno(treinador2.getPokesal());
   }
 
   /**
